@@ -11,8 +11,8 @@ const Home: NextPage = () => {
   const [generatedLyric, setGeneratedLyric] = useState("");
 
   console.log("Streamed response: ", generatedLyric);
+  let prompt = ''
   function handleClick() {
-    let prompt = ''
     switch (selectedGenre) {
       case 'R&B':
         prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
