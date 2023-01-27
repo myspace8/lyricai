@@ -54,7 +54,8 @@ const Home: NextPage = () => {
       return;
     }
 
-    const reader = data.getReader();
+    // -----------
+    const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let done = false;
 
@@ -64,6 +65,17 @@ const Home: NextPage = () => {
       const chunkValue = decoder.decode(value);
       setGeneratedLyric((prev) => prev + chunkValue);
     }
+    // ------------
+    // const reader = data.getReader();
+    // const decoder = new TextDecoder();
+    // let done = false;
+
+    // while (!done) {
+    //   const { value, done: doneReading } = await reader.read();
+    //   done = doneReading;
+    //   const chunkValue = decoder.decode(value);
+    //   setGeneratedLyric((prev) => prev + chunkValue);
+    // }
     setLoading(false);
   };
 
