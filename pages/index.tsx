@@ -1,25 +1,16 @@
 import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
 import Head from "next/head";
-// import Image from "next/image";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
-// import DropDown, { StyleType } from "../components/DropDown";
-// import Footer from "../components/Footer";
-// import Github from "../components/GitHub";
-// import Header from "../components/Header";
-// import LoadingDots from "../components/LoadingDots";
 import ResizablePanel from "../components/ResizablePanel";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
-  // const [bio, setBio] = useState("");
-  // const [style, setStyle] = useState<StyleType>("R&B");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [generatedLyric, setGeneratedLyric] = useState("");
 
   console.log("Streamed response: ", generatedLyric);
-  /* Generate a song lyric with the style/genre ${vibe}  */
   function handleClick() {
     let prompt = ''
     switch (selectedGenre) {
@@ -35,7 +26,6 @@ const Home: NextPage = () => {
       default:
         break;
     }
-    setGeneratedLyric(generatedLyric)
   }
 
   const generateLyric = async (e: any) => {
@@ -96,22 +86,12 @@ const Home: NextPage = () => {
             <button className="m-2" onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
           </div>
 
-          {/* {!loading && ( */}
             <button
               className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
               onClick={(e) => generateLyric(e)}
             >
               Generate lyric &rarr;
             </button>
-          {/* )} */}
-          {/* {loading && (
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              disabled
-            >
-              <LoadingDots color="white" style="large" />
-            </button>
-          )} */}
         </div>
         <Toaster
           position="top-center"
@@ -122,8 +102,6 @@ const Home: NextPage = () => {
         <ResizablePanel>
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10 my-10">
-              {/* {!generatedLyric && ( */}
-                {/* <> */}
                   <div>
                     <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">
                       Your generated lyric
@@ -132,45 +110,12 @@ const Home: NextPage = () => {
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
                       <p>{generatedLyric}</p>
                   </div>
-                {/* </> */}
-              {/* )} */}
             </motion.div>
           </AnimatePresence>
         </ResizablePanel>
       </main>
-      {/* <Footer /> */}
     </div>
   );
 };
 
 export default Home;
-  // const prompt =
-  //   style === "Reggae"
-  //     ? `Generate 2 funny twitter bios with no hashtags and clearly labeled "1." and "2.". Make sure there is a joke in there and it's a little ridiculous. Make sure each generated bio is at max 20 words and base it on this context: ${bio}${
-  //         bio.slice(-1) === "." ? "" : "."
-  //       }`
-  //     : `Generate 2 ${style} twitter bios with no hashtags and clearly labeled "1." and "2.". Make sure each generated bio is at least 14 words and at max 20 words and base them on this context: ${bio}${
-  //         bio.slice(-1) === "." ? "" : "."
-  //       }`;
-
-
-
-
-                 {/* {generatedLyric
-                      .substring(generatedLyric.indexOf("1") + 3)
-                      .split("2.")
-                      .map((generatedBio) => {
-                        return (
-                          <div
-                            className="bg-white rounded-xl shadow-md p-4 hover:bg-gray-100 transition cursor-copy border"
-                            onClick={() => {
-                              navigator.clipboard.writeText(generatedBio);
-                              toast("Bio copied to clipboard", {
-                                icon: "✂️",
-                              });
-                            }}
-                            key={generatedBio}
-                          >
-                          </div>
-                        );
-                      })} */}
