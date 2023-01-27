@@ -128,10 +128,11 @@ const Home: NextPage = () => {
                   </div>
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
                       {/* {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>} */}
-                      {verses.map((verse, index) => (
+                      {loading ? <p>Loading...</p> : 
+                      verses.map((verse, index) => (
                         <p key={index}>{verse}</p>
                       ))}
-                      {choruses.map((chorus, index) => (
+                      {loading ? <p>Loading...</p> : choruses.map((chorus, index) => (
                         <cite key={index}>{chorus}</cite>
                       ))}
                   </div>
