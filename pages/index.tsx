@@ -66,23 +66,30 @@ const Home: NextPage = () => {
       setGeneratedLyric((prev) => prev + chunkValue);
     }
     // ------------
-    // const reader = data.getReader();
-    // const decoder = new TextDecoder();
-    // let done = false;
-
-    // while (!done) {
-    //   const { value, done: doneReading } = await reader.read();
-    //   done = doneReading;
-    //   const chunkValue = decoder.decode(value);
-    //   setGeneratedLyric((prev) => prev + chunkValue);
-    // }
     setLoading(false);
   };
+
+
+  // ----------------------HANDLE generatedLyric --------------------
+    let verses: string[] = [];
+    let choruses: string[] = [];
+    const matchVerse = generatedLyric.match(/Verse (.*)/g);
+    if (matchVerse) {
+        verses = matchVerse
+    }
+
+    const matchChorus = generatedLyric.match(/Chorus (.*)/g);
+    if (matchChorus) {
+    choruses = matchChorus
+    }
+  // -------------------------------------------------------------
+
+
 
   return (
     <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Head>
-        <title>Twitter Generator</title>
+        <title>AI Lyric Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -120,8 +127,13 @@ const Home: NextPage = () => {
                     </h2>
                   </div>
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                      {/* <p>{generatedLyric}</p> */}
-                      {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>}
+                      {/* {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>} */}
+                      {verses.map((verse, index) => (
+                        <p key={index}>{verse}</p>
+                      ))}
+                      {choruses.map((chorus, index) => (
+                        <cite key={index}>{chorus}</cite>
+                      ))}
                   </div>
             </motion.div>
           </AnimatePresence>
