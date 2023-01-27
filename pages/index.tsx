@@ -68,20 +68,32 @@ const Home: NextPage = () => {
     // ------------
     setLoading(false);
   };
-
-
+  
   // ----------------------HANDLE generatedLyric --------------------
-    let verses: string[] = [];
-    let choruses: string[] = [];
-    const matchVerse = generatedLyric.match(/Verse (.*)/g);
-    if (matchVerse) {
-        verses = matchVerse
-    }
+    // const verses: string[] = [];
+    // const choruses: string[] = [];
+    // const matchVerse = generatedLyric.match(/Verse (.*)/g);
+    // if (matchVerse) {
+    //     verses = matchVerse
+    // }
 
-    const matchChorus = generatedLyric.match(/Chorus (.*)/g);
-    if (matchChorus) {
-    choruses = matchChorus
-    }
+    // const matchChorus = generatedLyric.match(/Chorus (.*)/g);
+    // if (matchChorus) {
+    // choruses = matchChorus
+    // }
+  // -------------------------------------------------------------
+  // -------------------------------------------------------------
+
+    // if(generatedLyric.includes("Verse")) {
+    //   const verseRegex = /Verse\s\d+[^\n]+/g;
+    //   verses = generatedLyric.match(verseRegex);
+    // }
+
+    // if(generatedLyric.includes("Chorus")) {
+    //   const chorusRegex = /Chorus[^\n]+/g;
+    //   choruses = generatedLyric.match(chorusRegex);
+    // }
+  // -------------------------------------------------------------
   // -------------------------------------------------------------
 
 
@@ -93,7 +105,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <Header /> */}
       <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
  
         <div className="max-w-xl">
@@ -127,14 +138,15 @@ const Home: NextPage = () => {
                     </h2>
                   </div>
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                      {/* {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>} */}
-                      {loading ? <p>Loading...</p> : 
+                      {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>}
+                      {/* Trying to be created here. */}
+                      {/* {loading ? <p>Loading...</p> : 
                       verses.map((verse, index) => (
                         <p key={index}>{verse}</p>
                       ))}
                       {loading ? <p>Loading...</p> : choruses.map((chorus, index) => (
                         <cite key={index}>{chorus}</cite>
-                      ))}
+                      ))} */}
                   </div>
             </motion.div>
           </AnimatePresence>
