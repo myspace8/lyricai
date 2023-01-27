@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         prompt,
       }),
     });
-    console.log("Edge function returned.");
+    // console.log("Edge function returned.");
 
     if (!response.ok) {
       throw new Error(response.statusText);
@@ -108,7 +108,8 @@ const Home: NextPage = () => {
                     </h2>
                   </div>
                   <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                      <p>{generatedLyric}</p>
+                      {/* <p>{generatedLyric}</p> */}
+                      {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>}
                   </div>
             </motion.div>
           </AnimatePresence>
