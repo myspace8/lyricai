@@ -9,8 +9,10 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [generatedLyric, setGeneratedLyric] = useState("");
+  const [isBtnVisible, setIsBtnVisible] = useState(false);
+  const [isWholeContainerVisible, setIsWholeContainerVisible] = useState(false);
 
-  console.log("Streamed response: ", generatedLyric);
+  console.log("Streamed response: ", generatedLyric); //Will be removed 
   let prompt = ''
   function handleClick() {
     switch (selectedGenre) {
@@ -95,62 +97,108 @@ const Home: NextPage = () => {
     // }
   // -------------------------------------------------------------
   // -------------------------------------------------------------
+  const toggleWholeContainer = () => {
+    setIsWholeContainerVisible(!isWholeContainerVisible)
+  }
 
+  const toggleButtonContainer = () => {
+    setIsBtnVisible(!isBtnVisible)
+  }
 
 
   return (
-    <div className="flex max-w-5xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
+    <div>
       <Head>
         <title>AI Lyric Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-12 sm:mt-20">
- 
-        <div className="max-w-xl">
-
-          <p>----</p>
-          <div>
-            <button className="m-2" onClick={() => setSelectedGenre("R&B")}>R&B</button>
-            <button className="m-2" onClick={() => setSelectedGenre("Jazz")}>Jazz</button>
-            <button className="m-2" onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
-          </div>
-
-            <button
-              className="bg-black rounded-xl text-white font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-black/80 w-full"
-              onClick={(e) => generateLyric(e)}
-            >
-              Generate lyric &rarr;
-            </button>
-        </div>
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          toastOptions={{ duration: 2000 }}
-        />
-        <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
-        <ResizablePanel>
+      <main className="">
+      <ResizablePanel>
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10 my-10">
-                  <div>
-                    <h2 className="sm:text-4xl text-3xl font-bold text-slate-900 mx-auto">
-                      Your generated lyric
-                    </h2>
-                  </div>
-                  <div className="space-y-8 flex flex-col items-center justify-center max-w-xl mx-auto">
-                      {loading ? <p>Loading...</p> : <p>{generatedLyric}</p>}
-                      {/* Trying to be created here. */}
-                      {/* {loading ? <p>Loading...</p> : 
-                      verses.map((verse, index) => (
-                        <p key={index}>{verse}</p>
-                      ))}
-                      {loading ? <p>Loading...</p> : choruses.map((chorus, index) => (
-                        <cite key={index}>{chorus}</cite>
-                      ))} */}
+                  <div className="">
+                      {loading ? <p>Loading...</p> : <p className="generated-para">{generatedLyric}</p>}
                   </div>
             </motion.div>
           </AnimatePresence>
         </ResizablePanel>
+ 
+        <section>
+          <div className="container-down">
+            <div className="flex justify-center " onClick={toggleWholeContainer}>
+              <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+            </div>
+            
+            {!isWholeContainerVisible && <div className="toggle">
+              <div className="options-container theme">
+                <div className="title">
+                  <span>Theme</span>
+                </div>
+                <div className="container-btn hide">
+                  <button className="m-2" >R&B</button>
+                  <button className="m-2" >Jazz</button>
+                  <button className="m-2" >Reggae</button>
+                </div>
+              </div>
+              <div className="options-container theme">
+                <div className="title">
+                  <span
+                  onClick={toggleButtonContainer}
+                  >Style</span>
+                </div>
+                {!isBtnVisible && <div className="container-btn-style">
+                  <button className="m-2" onClick={() => setSelectedGenre("R&B")}>R&B</button>
+                  <button className="m-2" onClick={() => setSelectedGenre("Jazz")}>Jazz</button>
+                  <button className="m-2" onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
+                </div>}
+              </div>
+              <div className="options-container theme">
+                <div className="title">
+                  <span>Tone</span>
+                </div>
+                <div className="container-btn hide">
+                  <button className="m-2" >R&B</button>
+                  <button className="m-2" >Jazz</button>
+                  <button className="m-2" >Reggae</button>
+                </div>
+              </div>
+            </div>}
+
+            <div className="all-bottom">
+              <div className="generate-btn">
+                <button
+                  className=""
+                  onClick={(e) => generateLyric(e)}
+                >
+                  Generate lyric &rarr;
+                </button>
+              </div>
+              <div className="navigation-container">
+                <nav>
+                  <ul>
+                    <li>
+                      <a href="#">Contact</a>
+                    </li>
+                    <li>
+                      <a href="#">About</a>
+                    </li>
+                    <li>
+                      <a href="#">LyricAI</a>
+                    </li>
+                    <li>
+                      <a href="#">Feedback</a>
+                    </li>
+                    <li>
+                      <a href="#">More</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   );
