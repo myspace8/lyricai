@@ -15,6 +15,7 @@ module.exports = {
         'primary-white': '#ffffff',
         'secondary-black': '#2c2c2e',
         'secondary-white': '#f5f8fa',
+        'outstanding-red': '#F73558',
       },
     },
   },

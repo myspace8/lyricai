@@ -12,6 +12,18 @@ const Home: NextPage = () => {
   const [generatedLyric, setGeneratedLyric] = useState("");
   const [isBtnVisible, setIsBtnVisible] = useState(false);
   const [isWholeContainerVisible, setIsWholeContainerVisible] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+
+  // Dropdown functionality
+  const toggleDropdown = (id: string) => {
+    if (activeDropdown === id) {
+      setActiveDropdown(null);
+    } else {
+      setActiveDropdown(id);
+    }
+  };
+
 
   console.log("Streamed response: ", generatedLyric); //Will be removed 
   let prompt = ''
@@ -72,38 +84,10 @@ const Home: NextPage = () => {
     setLoading(false);
   };
   
-  // ----------------------HANDLE generatedLyric --------------------
-    // const verses: string[] = [];
-    // const choruses: string[] = [];
-    // const matchVerse = generatedLyric.match(/Verse (.*)/g);
-    // if (matchVerse) {
-    //     verses = matchVerse
-    // }
-
-    // const matchChorus = generatedLyric.match(/Chorus (.*)/g);
-    // if (matchChorus) {
-    // choruses = matchChorus
-    // }
-  // -------------------------------------------------------------
-  // -------------------------------------------------------------
-
-    // if(generatedLyric.includes("Verse")) {
-    //   const verseRegex = /Verse\s\d+[^\n]+/g;
-    //   verses = generatedLyric.match(verseRegex);
-    // }
-
-    // if(generatedLyric.includes("Chorus")) {
-    //   const chorusRegex = /Chorus[^\n]+/g;
-    //   choruses = generatedLyric.match(chorusRegex);
-    // }
-  // -------------------------------------------------------------
-  // -------------------------------------------------------------
+  // TODO: ----------------------HANDLE generatedLyric --------------------
+ 
   const toggleWholeContainer = () => {
     setIsWholeContainerVisible(!isWholeContainerVisible)
-  }
-
-  const toggleButtonContainer = () => {
-    setIsBtnVisible(!isBtnVisible)
   }
 
 
@@ -138,13 +122,20 @@ const Home: NextPage = () => {
             
             {!isWholeContainerVisible && <div className="toggle">
               <div className="p-1 my-2">
-                <div className="text-white flex justify-between items-center">
+                <div 
+                onClick={() => toggleDropdown('theme')} 
+                className={`text-white cursor-pointer flex justify-between items-center ${activeDropdown === 'theme' ? 'active' : '' }`}>
+                
                   <span>Theme</span>
                   <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60"fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
                   </div>
                 </div>
-                <div className="container-btn">
+                <div 
+                className={`container-btn ${
+                  activeDropdown === 'theme' ? '' : 'hide'
+                }`}
+                >
                   <button className="m-2" >R&B</button>
                   <button className="m-2" >Jazz</button>
                   <button className="m-2" >Reggae</button>
@@ -152,29 +143,55 @@ const Home: NextPage = () => {
               </div>
               <hr />
               <div className="p-1 my-2">
-                <div className="title text-white flex justify-between items-center">
-                  <span
-                  onClick={toggleButtonContainer}
-                  >Style</span>
-                                    <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+                <div 
+                  onClick={() => {
+                    toggleDropdown('style')
+                    setIsBtnVisible(!isBtnVisible)
+                }}
+                  className={`cursor-pointer text-white flex justify-between items-center ${
+                  activeDropdown === 'style' ? 'active' : ''
+                  }`}
+                >
+                  <span>Style</span>
+                  <div 
+                  className={`transition duration-300 ease-in-out transform ${isBtnVisible ? 'rotate-180' : ''}`}> 
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
                   </div>
                 </div>
-                {!isBtnVisible && <div className="">
-                  <button className="m-2" onClick={() => setSelectedGenre("R&B")}>R&B</button>
-                  <button className="m-2" onClick={() => setSelectedGenre("Jazz")}>Jazz</button>
-                  <button className="m-2" onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
-                </div>}
+                <div 
+                className={`container-btn ${
+                  activeDropdown === 'style' ? '' : 'hide'
+                }`}
+                >
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`} 
+                  onClick={() => setSelectedGenre("R&B")}>R&B</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Jazz" ? "border-outstanding-red rounded-md" : ""}`} 
+                  onClick={() => setSelectedGenre("Jazz")}>Jazz</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Reggae" ? "border-outstanding-red rounded-md" : ""}`} 
+                  onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
+                </div>
               </div>
               <hr />
               <div className="p-1 my-2">
-                <div className="title text-white flex justify-between items-center">
+                <div 
+                  onClick={() => toggleDropdown('tone')}
+                  className={`cursor-pointer text-white flex justify-between items-center ${
+                  activeDropdown === 'tone' ? 'active' : ''
+                  }`}
+                >
                   <span>Tone</span>
-                  <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+                  <div >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
                   </div>
                 </div>
-                <div className="container-btn hide">
+                <div 
+                className={`container-btn ${
+                  activeDropdown === 'tone' ? '' : 'hide'
+                }`}
+                >
                   <button className="m-2" >R&B</button>
                   <button className="m-2" >Jazz</button>
                   <button className="m-2" >Reggae</button>
@@ -186,8 +203,11 @@ const Home: NextPage = () => {
             <div className="all-bottom">
               <div className="generate-btn">
                 <button
-                  className=""
-                  onClick={(e) => generateLyric(e)}
+                  className={`m-2 text-white border rounded-md border-outstanding-red  px-4 py-1 ${!selectedGenre ? "border-outstanding-red m-4" : ""}`}
+                  onClick={(e) => {
+                    console.log('generating...');
+                    // generateLyric(e)
+                  }}
                 >
                   Generate lyric &rarr;
                 </button>
