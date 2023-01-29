@@ -2,7 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import Header from "../components/Header";
+// import { Toaster, toast } from "react-hot-toast";
 import ResizablePanel from "../components/ResizablePanel";
 
 const Home: NextPage = () => {
@@ -107,55 +108,71 @@ const Home: NextPage = () => {
 
 
   return (
-    <div>
+    <div className="bg-secondary-black max-w-5xl mx-auto">
       <Head>
         <title>AI Lyric Generator</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
 
-      <main className="">
-      <ResizablePanel>
+      <main className="md:flex h-screen justify-between md:px-5 md:pt-7 md:gap-4 ">
+        <ResizablePanel>
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10 my-10">
                   <div className="">
+                    <p className="text-white max-w-max generated-para">
+                    By default, breakpoints are min-width to encourage a mobile-first workflow. If you need more control over your media queries, you can also define them using an object syntax that lets you specify explicit min-width and max-width values.
+                    By default, breakpoints are min-width to encourage a mobile-first workflow. If you need more control over your media queries, you can also define them using an object syntax that lets you specify explicit min-width and max-width values.
+                    </p>
                       {loading ? <p>Loading...</p> : <p className="generated-para">{generatedLyric}</p>}
                   </div>
             </motion.div>
           </AnimatePresence>
         </ResizablePanel>
  
-        <section>
-          <div className="container-down">
-            <div className="flex justify-center " onClick={toggleWholeContainer}>
+        <section className="md:flex">
+          <div className="container-down w-96 bg-primary-black h-max p-5">
+            <div className="flex justify-center md:hidden" onClick={toggleWholeContainer}>
               <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
             </div>
             
             {!isWholeContainerVisible && <div className="toggle">
-              <div className="options-container theme">
-                <div className="title">
+              <div className="p-1 my-2">
+                <div className="text-white flex justify-between items-center">
                   <span>Theme</span>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+                  </div>
                 </div>
-                <div className="container-btn hide">
+                <div className="container-btn">
                   <button className="m-2" >R&B</button>
                   <button className="m-2" >Jazz</button>
                   <button className="m-2" >Reggae</button>
                 </div>
               </div>
-              <div className="options-container theme">
-                <div className="title">
+              <hr />
+              <div className="p-1 my-2">
+                <div className="title text-white flex justify-between items-center">
                   <span
                   onClick={toggleButtonContainer}
                   >Style</span>
+                                    <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+                  </div>
                 </div>
-                {!isBtnVisible && <div className="container-btn-style">
+                {!isBtnVisible && <div className="">
                   <button className="m-2" onClick={() => setSelectedGenre("R&B")}>R&B</button>
                   <button className="m-2" onClick={() => setSelectedGenre("Jazz")}>Jazz</button>
                   <button className="m-2" onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
                 </div>}
               </div>
-              <div className="options-container theme">
-                <div className="title">
+              <hr />
+              <div className="p-1 my-2">
+                <div className="title text-white flex justify-between items-center">
                   <span>Tone</span>
+                  <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+                  </div>
                 </div>
                 <div className="container-btn hide">
                   <button className="m-2" >R&B</button>
@@ -163,6 +180,7 @@ const Home: NextPage = () => {
                   <button className="m-2" >Reggae</button>
                 </div>
               </div>
+              <hr />
             </div>}
 
             <div className="all-bottom">
