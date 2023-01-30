@@ -99,12 +99,13 @@ const Home: NextPage = () => {
       </Head>
       <Header />
 
-      <main className="md:flex h-screen justify-between md:px-5 md:pt-7 md:gap-4 ">
+      <main className="md:flex justify-between md:px-5 md:pt-7 md:gap-4 ">
         <ResizablePanel>
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10 my-10">
-                  <div className="">
-                    <p className="text-white max-w-max generated-para">
+              {/* TODO: Wrap generated para around a library for better readerbility */}
+                  <div className=""> 
+                    <p className="text-white m-3 max-w-max generated-para">
                     By default, breakpoints are min-width to encourage a mobile-first workflow. If you need more control over your media queries, you can also define them using an object syntax that lets you specify explicit min-width and max-width values.
                     By default, breakpoints are min-width to encourage a mobile-first workflow. If you need more control over your media queries, you can also define them using an object syntax that lets you specify explicit min-width and max-width values.
                     </p>
@@ -115,7 +116,7 @@ const Home: NextPage = () => {
         </ResizablePanel>
  
         <section className="md:flex">
-          <div className="container-down w-96 bg-primary-black h-max p-5">
+          <div className="selectors-wrapper md:w-96 bg-primary-black h-max px-5 pb-2">
             <div className="flex justify-center md:hidden" onClick={toggleWholeContainer}>
               <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
             </div>
@@ -212,7 +213,7 @@ const Home: NextPage = () => {
                   Generate lyric &rarr;
                 </button>
               </div>
-              <div className="navigation-container">
+              <div className="navigation-container md:hidden text-white">
                 <nav>
                   <ul>
                     <li>

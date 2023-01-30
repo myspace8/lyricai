@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-      <header>
+      <header className="hidden md:block">
         <nav>
           <ul>
             <li>
