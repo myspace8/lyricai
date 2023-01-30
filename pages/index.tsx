@@ -10,7 +10,9 @@ const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [generatedLyric, setGeneratedLyric] = useState("");
-  const [isBtnVisible, setIsBtnVisible] = useState(false);
+  const [isThemeDropdownVisible, setIsThemeDropdownVisible] = useState(false);
+  const [isStyleDropdownVisible, setIsStyleDropdownVisible] = useState(false);
+  const [isToneDropdownVisible, setIsToneDropdownVisible] = useState(false);
   const [isWholeContainerVisible, setIsWholeContainerVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
@@ -21,6 +23,9 @@ const Home: NextPage = () => {
       setActiveDropdown(null);
     } else {
       setActiveDropdown(id);
+      setIsThemeDropdownVisible(true)
+      setIsStyleDropdownVisible(true)
+      setIsToneDropdownVisible(true)
     }
   };
 
@@ -85,10 +90,6 @@ const Home: NextPage = () => {
   };
   
   // TODO: ----------------------HANDLE generatedLyric --------------------
- 
-  const toggleWholeContainer = () => {
-    setIsWholeContainerVisible(!isWholeContainerVisible)
-  }
 
 
   return (
@@ -116,19 +117,28 @@ const Home: NextPage = () => {
         </ResizablePanel>
  
         <section className="md:flex">
-          <div className="selectors-wrapper md:w-96 bg-primary-black h-max px-5 pb-2">
-            <div className="flex justify-center md:hidden" onClick={toggleWholeContainer}>
-              <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
+          <div className="selectors-wrapper md:w-96 bg-primary-black h-max px-5 pb-2 rounded-t-xl md:rounded-b-xl">
+            <div 
+            className={`flex justify-center md:hidden transition duration-300 ease-in-out transform ${!isWholeContainerVisible ? 'rotate-180' : ''}`}
+            onClick={() => {
+              setIsWholeContainerVisible(!isWholeContainerVisible)
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60"fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
             </div>
             
             {!isWholeContainerVisible && <div className="toggle">
               <div className="p-1 my-2">
                 <div 
-                onClick={() => toggleDropdown('theme')} 
+                onClick={() => {
+                  toggleDropdown('theme')
+                  setIsThemeDropdownVisible(!isThemeDropdownVisible)
+              }} 
                 className={`text-white cursor-pointer flex justify-between items-center ${activeDropdown === 'theme' ? 'active' : '' }`}>
                 
                   <span>Theme</span>
-                  <div>
+                  <div
+                  className={`transition duration-300 ease-in-out transform ${isThemeDropdownVisible ? 'rotate-180' : ''}`}
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60"fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
                   </div>
                 </div>
@@ -137,9 +147,15 @@ const Home: NextPage = () => {
                   activeDropdown === 'theme' ? '' : 'hide'
                 }`}
                 >
-                  <button className="m-2" >R&B</button>
-                  <button className="m-2" >Jazz</button>
-                  <button className="m-2" >Reggae</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  >Love</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  >Heartbreak</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  >Motivation</button>
                 </div>
               </div>
               <hr />
@@ -147,7 +163,7 @@ const Home: NextPage = () => {
                 <div 
                   onClick={() => {
                     toggleDropdown('style')
-                    setIsBtnVisible(!isBtnVisible)
+                    setIsStyleDropdownVisible(!isStyleDropdownVisible)
                 }}
                   className={`cursor-pointer text-white flex justify-between items-center ${
                   activeDropdown === 'style' ? 'active' : ''
@@ -155,7 +171,7 @@ const Home: NextPage = () => {
                 >
                   <span>Style</span>
                   <div 
-                  className={`transition duration-300 ease-in-out transform ${isBtnVisible ? 'rotate-180' : ''}`}> 
+                  className={`transition duration-300 ease-in-out transform ${isStyleDropdownVisible ? 'rotate-180' : ''}`}> 
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
                   </div>
                 </div>
@@ -178,13 +194,18 @@ const Home: NextPage = () => {
               <hr />
               <div className="p-1 my-2">
                 <div 
-                  onClick={() => toggleDropdown('tone')}
+                  onClick={() => {
+                    toggleDropdown('tone')
+                    setIsToneDropdownVisible(!isToneDropdownVisible)
+                }}
                   className={`cursor-pointer text-white flex justify-between items-center ${
                   activeDropdown === 'tone' ? 'active' : ''
                   }`}
                 >
                   <span>Tone</span>
-                  <div >
+                  <div 
+                  className={`transition duration-300 ease-in-out transform ${isToneDropdownVisible ? 'rotate-180' : ''}`}
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -5 50 60" fill="grey" height="48" width="48"><path d="M14.15 30.75 12 28.6l12-12 12 11.95-2.15 2.15L24 20.85Z"/></svg>
                   </div>
                 </div>
@@ -193,9 +214,15 @@ const Home: NextPage = () => {
                   activeDropdown === 'tone' ? '' : 'hide'
                 }`}
                 >
-                  <button className="m-2" >R&B</button>
-                  <button className="m-2" >Jazz</button>
-                  <button className="m-2" >Reggae</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  >Nostalgic</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  >Romantic</button>
+                  <button 
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  >Suspenseful</button>
                 </div>
               </div>
               <hr />
