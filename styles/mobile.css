@@ -1,32 +1,70 @@
-section {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+/* section { */
+    /* position: absolute; */
+    /* bottom: 0; */
+    /* width: 100%; */
+/* } */
+:root {
+    --primary-white: #ffffff;
 }
 
-.container-down {
-    width: 100%;
-    background-color: #cfd8dc;
-    border-radius: 12px;
+/* Do not remove */
+header nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 768px;
+    margin: auto;
+    padding: 1.75rem 0;
+    color: var(--primary-white);
 }
 
-.options-container {
-    background-color: lavender;
+header nav ul li a {
+    padding: .4rem .8rem;
+    border-radius: 8px;
+    transition: all .2s ease;
 }
 
-.options-container .container-btn-style {
-    /* display: none; */
+header nav ul li a:hover {
+    color: rgba(255, 255, 255, .7);
+}
+
+header .logo {
+    font-size: 150%;
+}
+
+header .logo a:hover {
+    color: unset;
+}
+
+@media (max-width: 768px) {
+    section {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+.container-btn {
+    animation: fadeIn 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
 }
 
 .generate-btn {
     display: flex;
     justify-content: center;
-    color: white;
+    color: #fff;
     padding: 1rem;
 }
 
 .generate-btn button {
-    background-color: black;
     padding: .4rem;
     border-radius: 8px;
 }
@@ -38,51 +76,22 @@ section {
     margin: .3rem .7rem;
 }
 
-.toggle {
-    /* display: none; */
-    padding: 1rem;
-    background-color: black;
-    margin-bottom: .275rem;
-}
-
 .toggle .options-container {
     padding: .2rem;
     margin: .275rem 0;
-}
-
-.toggle .options-container .title {
-    background-color: black;
-    color: #fff;
-}
-
-
-
-.all-bottom {
-    background-color: bisque;
 }
 
 
 .hide {
     display: none;
 }
-
+/* 
 .generated-para {
     max-height: 70vh;
     overflow: scroll;
-}
+} */
 
 
 
 
 
-
-
-
-
-
-@media (min-width: 768px) {
-    main {
-        /* display: block !important; */
-        /* height: 100vh !important; */
-    }
-}

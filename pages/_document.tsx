@@ -31,7 +31,7 @@ class MyDocument extends Document {
             content=""
           />
         </Head>
-        <body>
+        <body className="bg-secondary-black overflow-hidden">
           <Main />
           <NextScript />
         </body>
