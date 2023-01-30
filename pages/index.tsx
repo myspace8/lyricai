@@ -36,6 +36,7 @@ const Home: NextPage = () => {
     switch (selectedGenre) {
       case 'R&B':
         prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
+        console.log('boooo');
         break;
       case "Jazz":
         prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
@@ -47,6 +48,7 @@ const Home: NextPage = () => {
         break;
     }
   }
+
 
   const generateLyric = async (e: any) => {
     e.preventDefault();
@@ -104,12 +106,7 @@ const Home: NextPage = () => {
         <ResizablePanel>
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10 my-10">
-              {/* TODO: Wrap generated para around a library for better readerbility */}
                   <div className=""> 
-                    <p className="text-white m-3 max-w-max generated-para">
-                    By default, breakpoints are min-width to encourage a mobile-first workflow. If you need more control over your media queries, you can also define them using an object syntax that lets you specify explicit min-width and max-width values.
-                    By default, breakpoints are min-width to encourage a mobile-first workflow. If you need more control over your media queries, you can also define them using an object syntax that lets you specify explicit min-width and max-width values.
-                    </p>
                       {loading ? <p>Loading...</p> : <p className="generated-para">{generatedLyric}</p>}
                   </div>
             </motion.div>
@@ -148,13 +145,13 @@ const Home: NextPage = () => {
                 }`}
                 >
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Love" ? "border-outstanding-red rounded-md" : ""}`}
                   >Love</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Heartbreak" ? "border-outstanding-red rounded-md" : ""}`}
                   >Heartbreak</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Motivation" ? "border-outstanding-red rounded-md" : ""}`}
                   >Motivation</button>
                 </div>
               </div>
@@ -234,7 +231,7 @@ const Home: NextPage = () => {
                   className={`m-2 text-white border rounded-md border-outstanding-red  px-4 py-1 ${!selectedGenre ? "border-outstanding-red m-4" : ""}`}
                   onClick={(e) => {
                     console.log('generating...');
-                    // generateLyric(e)
+                    generateLyric(e)
                   }}
                 >
                   Generate lyric &rarr;
