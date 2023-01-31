@@ -37,25 +37,6 @@ const Home: NextPage = () => {
   console.log("Streamed response: ", generatedLyric); //Will be removed 
   let prompt = ''
 
-
-  // Array is options
-  // Append option at the end of options when the btn is clicked
-
-  // const handleSelectedOption = (option: string) => {
-  //   if (!options.includes(option)) {
-  //     setOptions((prevtheme) => {
-  //       const newOptions = [...prevtheme];
-  //       newOptions.push(option);
-  //       console.log(newOptions);
-  //       prompt = `Generate a song lyric with the following preferences ${newOptions.toString()}`
-
-        
-  //       return newOptions
-  //     });
-  //   }
-  // }
-
-
   const handleClick = (value: string, group: 'theme' | 'genre' | 'tone') => {
     const existing = selected.find((item) => item.startsWith(group));
     if (existing) {
@@ -72,32 +53,10 @@ const Home: NextPage = () => {
     console.log(prompt);
   };
 
-//  <button onClick={() => handleClick('Love', 'theme')}>Love</button>
-
-  // function handleClick() {
-  //   switch (selectedGenre) {
-  //     case 'R&B':
-  //       prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
-  //       console.log('boooo');
-  //       break;
-  //     case "Jazz":
-  //       prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
-  //       break;
-  //     case "Reggae":
-  //       prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // }
-
-  // prompt = `Generate a song lyric with the following preferences: ${selectedGenre}, ${selectedTheme}, and `
-
-
   const generateLyric = async (e: any) => {
     e.preventDefault();
     setGeneratedLyric("");
-    // handleClick()
+    handleClick()
     setLoading(true);
     const response = await fetch("/api/generate", {
       method: "POST",
