@@ -4,7 +4,9 @@ import Head from "next/head";
 import { useState } from "react";
 import Header from "../components/Header";
 // import { Toaster, toast } from "react-hot-toast";
-import ResizablePanel from "../components/ResizablePanel";
+// import ResizablePanel from "../components/ResizablePanel";
+import Balancer from 'react-wrap-balancer'
+
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
@@ -15,6 +17,8 @@ const Home: NextPage = () => {
   const [isToneDropdownVisible, setIsToneDropdownVisible] = useState(false);
   const [isWholeContainerVisible, setIsWholeContainerVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [options, setOptions] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
 
 
   // Dropdown functionality
@@ -32,28 +36,68 @@ const Home: NextPage = () => {
 
   console.log("Streamed response: ", generatedLyric); //Will be removed 
   let prompt = ''
-  function handleClick() {
-    switch (selectedGenre) {
-      case 'R&B':
-        prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
-        console.log('boooo');
-        break;
-      case "Jazz":
-        prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
-        break;
-      case "Reggae":
-        prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
-        break;
-      default:
-        break;
+
+
+  // Array is options
+  // Append option at the end of options when the btn is clicked
+
+  // const handleSelectedOption = (option: string) => {
+  //   if (!options.includes(option)) {
+  //     setOptions((prevtheme) => {
+  //       const newOptions = [...prevtheme];
+  //       newOptions.push(option);
+  //       console.log(newOptions);
+  //       prompt = `Generate a song lyric with the following preferences ${newOptions.toString()}`
+
+        
+  //       return newOptions
+  //     });
+  //   }
+  // }
+
+
+  const handleClick = (value: string, group: 'theme' | 'genre' | 'tone') => {
+    const existing = selected.find((item) => item.startsWith(group));
+    if (existing) {
+      setSelected((prev) =>
+        prev.map((item) =>
+          item === existing ? `${group}:${value}` : item
+        )
+      );
+    } else {
+      setSelected((prev) => [...prev, `${group}:${value}`]);
     }
-  }
+    prompt = `Generate a song lyric with the following preferences - ${selected.toString()}`
+
+    console.log(prompt);
+  };
+
+//  <button onClick={() => handleClick('Love', 'theme')}>Love</button>
+
+  // function handleClick() {
+  //   switch (selectedGenre) {
+  //     case 'R&B':
+  //       prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
+  //       console.log('boooo');
+  //       break;
+  //     case "Jazz":
+  //       prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
+  //       break;
+  //     case "Reggae":
+  //       prompt = `Generate a song lyric with the style/genre, ${selectedGenre}.`
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
+
+  // prompt = `Generate a song lyric with the following preferences: ${selectedGenre}, ${selectedTheme}, and `
 
 
   const generateLyric = async (e: any) => {
     e.preventDefault();
     setGeneratedLyric("");
-    handleClick()
+    // handleClick()
     setLoading(true);
     const response = await fetch("/api/generate", {
       method: "POST",
@@ -103,17 +147,20 @@ const Home: NextPage = () => {
       <Header />
 
       <main className="md:flex justify-between md:px-5 md:pt-7 md:gap-4 ">
-        <ResizablePanel>
+        {/* <ResizablePanel> */}
           <AnimatePresence mode="wait">
-            <motion.div className="space-y-10 my-10">
-                  <div className=""> 
-                      {loading ? <p>Loading...</p> : <p className="generated-para">{generatedLyric}</p>}
+            <motion.div className="space-y-10">
+                  <div className="text-white"> 
+                      {!loading ? <p className="text-lg m-3">Generating...
+                      </p> : <p className="">
+                      <Balancer>{generatedLyric}</Balancer>
+                      </p>}
                   </div>
             </motion.div>
           </AnimatePresence>
-        </ResizablePanel>
+        {/* </ResizablePanel> */}
  
-        <section className="md:flex">
+        <section className="md:flex md:static absolute bottom-0 w-full md:w-auto">
           <div className="selectors-wrapper md:w-96 bg-primary-black h-max px-5 pb-2 rounded-t-xl md:rounded-b-xl">
             <div 
             className={`flex justify-center md:hidden transition duration-300 ease-in-out transform ${!isWholeContainerVisible ? 'rotate-180' : ''}`}
@@ -145,17 +192,30 @@ const Home: NextPage = () => {
                 }`}
                 >
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Love" ? "border-outstanding-red rounded-md" : ""}`}
+                  onClick={() => {
+                    handleClick('Love', 'theme')
+                    // handleSelectedOption('Love')
+                  }}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("theme:Love") ? "border-outstanding-red rounded-md" : ""}`}
                   >Love</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Heartbreak" ? "border-outstanding-red rounded-md" : ""}`}
+                  onClick={() => {
+                    handleClick('Heartbreak', 'theme')
+                    // handleSelectedOption('Heartbreak')
+                  }}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("theme:Heartbreak") ? "border-outstanding-red rounded-md" : ""}`}
                   >Heartbreak</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Motivation" ? "border-outstanding-red rounded-md" : ""}`}
+                  onClick={() => {
+                    handleClick('Motivation', 'theme')
+                    // handleSelectedOption('Motivation')
+                  }}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("theme:Motivation") ? "border-outstanding-red rounded-md" : ""}`}
                   >Motivation</button>
                 </div>
               </div>
               <hr />
+              {/* --------------------STYLE------------------------ */}
               <div className="p-1 my-2">
                 <div 
                   onClick={() => {
@@ -178,14 +238,27 @@ const Home: NextPage = () => {
                 }`}
                 >
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`} 
-                  onClick={() => setSelectedGenre("R&B")}>R&B</button>
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("genre:R&B") ? "border-outstanding-red rounded-md" : ""}`} 
+                  onClick={() => {
+                    handleClick('R&B', 'genre')
+                    // setSelectedGenre("R&B")
+                    // handleSelectedOption('R&B')
+                  }}>R&B
+                  </button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Jazz" ? "border-outstanding-red rounded-md" : ""}`} 
-                  onClick={() => setSelectedGenre("Jazz")}>Jazz</button>
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("genre:Jazz") ? "border-outstanding-red rounded-md" : ""}`} 
+                  onClick={() => {
+                    handleClick('Jazz', 'genre')
+                    // setSelectedGenre("Jazz")
+                    // handleSelectedOption('Jazz')
+                  }}>Jazz</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "Reggae" ? "border-outstanding-red rounded-md" : ""}`} 
-                  onClick={() => setSelectedGenre("Reggae")}>Reggae</button>
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("genre:Reggae") ? "border-outstanding-red rounded-md" : ""}`} 
+                  onClick={() => {
+                    handleClick('Reggae', 'genre')
+                    // setSelectedGenre("Reggae")
+                    // handleSelectedOption('Reggae')
+                  }}>Raggae</button>
                 </div>
               </div>
               <hr />
@@ -212,13 +285,22 @@ const Home: NextPage = () => {
                 }`}
                 >
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  onClick={() => {
+                    handleClick('Nostalgic', 'tone')
+                  }}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes('tone:Nostalgic') ? "border-outstanding-red rounded-md" : ""}`}
                   >Nostalgic</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  onClick={() => {
+                    handleClick('Romantic', 'tone')
+                  }}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes('tone:Romantic') ? "border-outstanding-red rounded-md" : ""}`}
                   >Romantic</button>
                   <button 
-                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selectedGenre === "R&B" ? "border-outstanding-red rounded-md" : ""}`}
+                  onClick={() => {
+                    handleClick('Suspenseful', 'tone')
+                  }}
+                  className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes('tone:Suspenseful') ? "border-outstanding-red rounded-md" : ""}`}
                   >Suspenseful</button>
                 </div>
               </div>
