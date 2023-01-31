@@ -19,6 +19,7 @@ const Home: NextPage = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [options, setOptions] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  const [prompt, setPrompt] = useState<string>('');
 
 
   // Dropdown functionality
@@ -35,7 +36,6 @@ const Home: NextPage = () => {
 
 
   console.log("Streamed response: ", generatedLyric); //Will be removed 
-  let prompt = ''
 
   const handleClick = (value: string, group: 'theme' | 'genre' | 'tone') => {
     const existing = selected.find((item) => item.startsWith(group));
@@ -48,7 +48,8 @@ const Home: NextPage = () => {
     } else {
       setSelected((prev) => [...prev, `${group}:${value}`]);
     }
-    prompt = `Generate a song lyric with the following preferences - ${selected.toString()}`
+    setPrompt(`Generate a song lyric with the following preferences - ${selected.toString()}`);
+    // prompt = `Generate a song lyric with the following preferences - ${selected.toString()}`
 
     console.log(prompt);
   };
@@ -56,7 +57,6 @@ const Home: NextPage = () => {
   const generateLyric = async (e: any) => {
     e.preventDefault();
     setGeneratedLyric("");
-    handleClick()
     setLoading(true);
     const response = await fetch("/api/generate", {
       method: "POST",
@@ -67,19 +67,16 @@ const Home: NextPage = () => {
         prompt,
       }),
     });
-    // console.log("Edge function returned.");
 
     if (!response.ok) {
       throw new Error(response.statusText);
     }
 
-    // This data is a ReadableStream
     const data = response.body;
     if (!data) {
       return;
     }
 
-    // -----------
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let done = false;
@@ -90,7 +87,6 @@ const Home: NextPage = () => {
       const chunkValue = decoder.decode(value);
       setGeneratedLyric((prev) => prev + chunkValue);
     }
-    // ------------
     setLoading(false);
   };
   
@@ -110,7 +106,7 @@ const Home: NextPage = () => {
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10">
                   <div className="text-white"> 
-                      {!loading ? <p className="text-lg m-3">Generating...
+                      {loading ? <p className="text-lg m-3">Generating...
                       </p> : <p className="">
                       <Balancer>{generatedLyric}</Balancer>
                       </p>}
