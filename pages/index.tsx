@@ -10,14 +10,12 @@ import Balancer from 'react-wrap-balancer'
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
-  const [selectedGenre, setSelectedGenre] = useState("");
   const [generatedLyric, setGeneratedLyric] = useState("");
   const [isThemeDropdownVisible, setIsThemeDropdownVisible] = useState(false);
   const [isStyleDropdownVisible, setIsStyleDropdownVisible] = useState(false);
   const [isToneDropdownVisible, setIsToneDropdownVisible] = useState(false);
   const [isWholeContainerVisible, setIsWholeContainerVisible] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [options, setOptions] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [prompt, setPrompt] = useState<string>('');
 
@@ -48,10 +46,9 @@ const Home: NextPage = () => {
     } else {
       setSelected((prev) => [...prev, `${group}:${value}`]);
     }
-    setPrompt(`Generate a song lyric with the following preferences - ${selected.toString()}`);
-    // prompt = `Generate a song lyric with the following preferences - ${selected.toString()}`
+    setPrompt(`Generate a song lyric with the following preferences - ${selected.toString()}. For each preference, show a line or two in the lyric that correspond to the preference.`);
 
-    console.log(prompt);
+    // console.log(prompt);
   };
 
   const generateLyric = async (e: any) => {
@@ -90,8 +87,6 @@ const Home: NextPage = () => {
     setLoading(false);
   };
   
-  // TODO: ----------------------HANDLE generatedLyric --------------------
-
 
   return (
     <div className="bg-secondary-black max-w-5xl mx-auto">
@@ -149,21 +144,18 @@ const Home: NextPage = () => {
                   <button 
                   onClick={() => {
                     handleClick('Love', 'theme')
-                    // handleSelectedOption('Love')
                   }}
                   className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("theme:Love") ? "border-outstanding-red rounded-md" : ""}`}
                   >Love</button>
                   <button 
                   onClick={() => {
                     handleClick('Heartbreak', 'theme')
-                    // handleSelectedOption('Heartbreak')
                   }}
                   className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("theme:Heartbreak") ? "border-outstanding-red rounded-md" : ""}`}
                   >Heartbreak</button>
                   <button 
                   onClick={() => {
                     handleClick('Motivation', 'theme')
-                    // handleSelectedOption('Motivation')
                   }}
                   className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("theme:Motivation") ? "border-outstanding-red rounded-md" : ""}`}
                   >Motivation</button>
@@ -196,23 +188,17 @@ const Home: NextPage = () => {
                   className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("genre:R&B") ? "border-outstanding-red rounded-md" : ""}`} 
                   onClick={() => {
                     handleClick('R&B', 'genre')
-                    // setSelectedGenre("R&B")
-                    // handleSelectedOption('R&B')
                   }}>R&B
                   </button>
                   <button 
                   className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("genre:Jazz") ? "border-outstanding-red rounded-md" : ""}`} 
                   onClick={() => {
                     handleClick('Jazz', 'genre')
-                    // setSelectedGenre("Jazz")
-                    // handleSelectedOption('Jazz')
                   }}>Jazz</button>
                   <button 
                   className={`m-2 text-white border rounded-md border-slate-700  px-4 py-1 ${selected.includes("genre:Reggae") ? "border-outstanding-red rounded-md" : ""}`} 
                   onClick={() => {
                     handleClick('Reggae', 'genre')
-                    // setSelectedGenre("Reggae")
-                    // handleSelectedOption('Reggae')
                   }}>Raggae</button>
                 </div>
               </div>
@@ -265,7 +251,7 @@ const Home: NextPage = () => {
             <div className="all-bottom">
               <div className="generate-btn">
                 <button
-                  className={`m-2 text-white border rounded-md border-outstanding-red  px-4 py-1 ${!selectedGenre ? "border-outstanding-red m-4" : ""}`}
+                  className={`m-2 text-white border rounded-md border-outstanding-red  px-4 py-1 `}
                   onClick={(e) => {
                     console.log('generating...');
                     generateLyric(e)
