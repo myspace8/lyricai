@@ -36,6 +36,7 @@ const Home: NextPage = () => {
   console.log("Streamed response: ", generatedLyric); //Will be removed 
 
   const handleClick = (value: string, group: 'theme' | 'genre' | 'tone') => {
+    setPrompt(`Generate a song lyric with the following preferences - ${selected.toString()}.`);
     const existing = selected.find((item) => item.startsWith(group));
     if (existing) {
       setSelected((prev) =>
@@ -46,8 +47,6 @@ const Home: NextPage = () => {
     } else {
       setSelected((prev) => [...prev, `${group}:${value}`]);
     }
-    setPrompt(`Generate a song lyric with the following preferences - ${selected.toString()}. For each preference, show a line or two in the lyric that correspond to the preference.`);
-
     // console.log(prompt);
   };
 
@@ -100,7 +99,7 @@ const Home: NextPage = () => {
         {/* <ResizablePanel> */}
           <AnimatePresence mode="wait">
             <motion.div className="space-y-10">
-                  <div className="text-white"> 
+                  <div className="text-white m-2"> 
                       {loading ? <p className="text-lg m-3">Generating...
                       </p> : <p className="">
                       <Balancer>{generatedLyric}</Balancer>
