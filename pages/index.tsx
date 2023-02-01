@@ -101,7 +101,7 @@ const Home: NextPage = () => {
             <motion.div className="space-y-10">
                   <div className="text-white m-2"> 
                       {loading ? <p className="text-lg m-3">Generating...
-                      </p> : <p className="">
+                      </p> : <p className="m-2">
                       <Balancer>{generatedLyric}</Balancer>
                       </p>}
                   </div>
